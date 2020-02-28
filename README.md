@@ -27,6 +27,13 @@ lpabon-k8s-1-node2
 lpabon-k8s-1-node0
 ```
 
+## Usage
+
+* Update `global_vars.yml` accordingly
+* Create an inventory file with your systems and have one section called
+  `portworx` with a single node
+* Run `ansible-playbook -i inventory site.yml`
+
 ## Sample run
 ```
 $ ansible-playbook -i inventory site.yml
