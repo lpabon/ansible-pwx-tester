@@ -1,0 +1,12 @@
+- name: get token from kubernetes
+  command: kubectl {{ kubeargs }} -n {{ token_ns }} get secret {{ token_name }} -o json
+  register: tokensecret
+  connection: local
+  when: token_ns is defined and token_name is defined
+
+- set_fact:
+    pxtoken: "{{ tokensecret.stdout | from_json | json_query(query) | b64decode }}"
+  vars:
+    query: 'data."auth-token"'
+  when: token_ns is defined and token_name is defined
+

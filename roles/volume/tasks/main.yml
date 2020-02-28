@@ -1,0 +1,32 @@
+- name: checking cluster status
+  command: /opt/pwx/bin/pxctl -j status
+  register: clusterstatus
+  failed_when: '(clusterstatus.stdout | from_json).status != "STATUS_OK"'
+
+- name: setup pxctl context
+  command: /opt/pwx/bin/pxctl context create admin --token={{ pxtoken }}
+  when: pxtoken is defined
+
+- name: check volume exists
+  shell: /opt/pwx/bin/pxctl volume list | grep myvol
+  register: volexists
+  ignore_errors: yes
+
+- name: volume create
+  command: /opt/pwx/bin/pxctl volume create -r 1 myvol
+  when: volexists.rc != 0
+
+- name: volume inspect
+  command: /opt/pwx/bin/pxctl -j volume inspect myvol
+  register: vi
+  until: '(vi.stdout | from_json)[0].runtime_state[0].runtime_state.RuntimeState == "clean"'
+  retries: 5
+  delay: 2
+
+- name: delete volume
+  command: /opt/pwx/bin/pxctl -j volume delete -f myvol
+  register: vd
+  until: '(vd.stdout | from_json).status == "Ok"'
+  retries: 5
+  delay: 1
+
