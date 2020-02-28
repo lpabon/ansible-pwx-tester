@@ -1,0 +1,14 @@
+- name: Checking cluster status
+  shell: /opt/pwx/bin/pxctl -j status | jq -r ".status"
+  register: status
+  failed_when: '"STATUS_OK" not in status.stdout'
+
+- name: Checking cluster status using ansible
+  command: /opt/pwx/bin/pxctl -j status
+  register: statusjson
+  failed_when: '(statusjson.stdout | from_json).status != "STATUS_OK"'
+
+- name: jprint
+  debug:
+    msg: 'Msg is this {{(statusjson.stdout | from_json).status}}'
+
