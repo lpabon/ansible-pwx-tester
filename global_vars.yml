@@ -1,0 +1,3 @@
+token_ns: portworx
+token_name: px-admin
+kubeargs: --kubeconfig /home/lpabon/kubeup/kubeconfig.conf

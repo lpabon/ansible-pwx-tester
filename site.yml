@@ -1,4 +1,4 @@
-- hosts: nodes
+- hosts: lpabon-k8s-1-node0
   become: yes
   become_method: sudo
   vars_files:
