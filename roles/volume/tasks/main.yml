@@ -8,7 +8,7 @@
   when: pxtoken is defined
 
 - name: check volume exists
-  shell: /opt/pwx/bin/pxctl volume list | grep myvol
+  shell: /opt/pwx/bin/pxctl volume list | grep -w myvol
   register: volexists
   ignore_errors: yes
 
