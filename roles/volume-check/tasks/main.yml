@@ -10,4 +10,3 @@
   until: '(vd.stdout | from_json).status == "Ok"'
   retries: 5
   delay: 1
-  when: false
