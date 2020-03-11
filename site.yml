@@ -1,4 +1,4 @@
-- hosts: portworx
+- hosts: nodes
   become: yes
   become_method: sudo
   vars_files:
@@ -6,4 +6,17 @@
   roles:
     - common
     - kubernetes
+
+- hosts: portworx
+  become: yes
+  become_method: sudo
+  vars_files:
+    - "global_vars.yml"
+  roles:
     - volume
+
+- hosts: portworx_tester_node
+  become: yes
+  become_method: sudo
+  roles:
+    - volume-check

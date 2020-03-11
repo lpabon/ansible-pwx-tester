@@ -10,3 +10,7 @@
     query: 'data."auth-token"'
   when: token_ns is defined and token_name is defined
 
+- name: setup pxctl context
+  command: /opt/pwx/bin/pxctl context create admin --token={{ pxtoken }}
+  when: pxtoken is defined
+
