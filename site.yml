@@ -5,7 +5,7 @@
     - "global_vars.yml"
   roles:
     - common
-    - kubernetes
+    - security
 
 - hosts: portworx
   become: yes

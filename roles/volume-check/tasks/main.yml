@@ -1,0 +1,13 @@
+- set_fact:
+    testvolumeid: "{{ hostvars['portworx_vars']['testvolumeid'] }}"
+
+- debug:
+    msg: "testvolumeid {{ testvolumeid }}"
+
+- name: delete volume
+  command: /opt/pwx/bin/pxctl -j volume delete -f {{ testvolumeid }}
+  register: vd
+  until: '(vd.stdout | from_json).status == "Ok"'
+  retries: 5
+  delay: 1
+  when: false

@@ -16,12 +16,6 @@
 - set_fact:
     testvolumeid: "{{ (myvolcreate.stdout | from_json).uuid[0] }}"
 
-- debug:
-    msg: "myvocreate {{ myvolcreate.stdout }}"
-
-- debug:
-    msg: "testvolumeid {{ testvolumeid }}"
-
 - name: save variable across plays
   add_host:
     name: "portworx_vars"
@@ -33,12 +27,4 @@
   until: '(vi.stdout | from_json)[0].runtime_state[0].runtime_state.RuntimeState == "clean"'
   retries: 5
   delay: 2
-
-- name: delete volume
-  command: /opt/pwx/bin/pxctl -j volume delete -f {{ testvolumeid }}
-  register: vd
-  until: '(vd.stdout | from_json).status == "Ok"'
-  retries: 5
-  delay: 1
-  when: false
 
